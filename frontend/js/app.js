@@ -1,6 +1,4 @@
-const API_BASE_URL = process.env.NODE_ENV === 'production' 
-  ? 'https://ai-resume-api.onrender.com' 
-  : 'http://localhost:5000';
+const API_BASE_URL = 'https://ai-resume-api.onrender.com';
 
 function initYear() {
   const yearEl = document.getElementById('year');

@@ -6,15 +6,6 @@ services:
     plan: free
     buildCommand: cd backend && npm install
     startCommand: cd backend && node server.js
-    envVars:
-      - key: NODE_ENV
-        value: production
-      - key: GEMINI_API_KEY
-        sync: false
-      - key: TRUST_PROXY
-        value: true
-      - key: CORS_ORIGINS
-        value: https://ai-resume-frontend.onrender.com,https://ai-resume-api.onrender.com
     healthCheckPath: /api/health
     healthCheckTimeout: 100
 
@@ -29,9 +20,6 @@ services:
       - type: rewrite
         source: /*
         destination: /index.html
-    envVars:
-      - key: NODE_ENV
-        value: production
 
 # Global settings
 version: "1.0.0"

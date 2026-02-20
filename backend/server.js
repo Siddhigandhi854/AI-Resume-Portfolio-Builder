@@ -1,10 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const dotenv = require('dotenv');
 const path = require('path');
-
-// Load environment variables as early as possible
-dotenv.config({ path: path.resolve(__dirname, '.env') });
 
 const healthRoutes = require('./routes/healthRoutes');
 const resumeRoutes = require('./routes/resumeRoutes');
@@ -15,39 +11,19 @@ const logger = require('./utils/logger');
 
 const app = express();
 
-// Basic environment configuration
+// Basic configuration
 const PORT = process.env.PORT || 5000;
-const NODE_ENV = process.env.NODE_ENV || 'development';
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY || 'AIzaSyDdiCmw3G42Boao_Bl0kV15g57B0VGeNe0';
 
-// Trust proxy if behind a reverse proxy (common in production)
-if (process.env.TRUST_PROXY === 'true' || NODE_ENV === 'production') {
-  app.set('trust proxy', 1);
-}
+// Trust proxy for production
+app.set('trust proxy', 1);
 
 // JSON body parsing
 app.use(express.json({ limit: '1mb' }));
 
-// CORS configuration
-const allowedOrigins = (process.env.CORS_ORIGINS || '')
-  .split(',')
-  .map(origin => origin.trim())
-  .filter(Boolean);
-
+// CORS configuration - allow all origins for simplicity
 const corsOptions = {
-  origin: (origin, callback) => {
-    // Allow requests with no origin (like mobile apps, curl, Postman)
-    if (!origin) {
-      return callback(null, true);
-    }
-
-    if (!allowedOrigins.length || allowedOrigins.includes(origin)) {
-      return callback(null, true);
-    }
-
-    const error = new Error('Not allowed by CORS');
-    error.statusCode = 403;
-    return callback(error);
-  },
+  origin: true,
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
@@ -72,7 +48,7 @@ app.get('/', (req, res) => {
   res.json({
     name: 'AI Resume & Portfolio Builder API',
     status: 'running',
-    environment: NODE_ENV
+    environment: 'production'
   });
 });
 
@@ -84,7 +60,7 @@ app.use(errorHandler);
 
 // Start server
 const server = app.listen(PORT, () => {
-  logger.info(`Server running in ${NODE_ENV} mode on port ${PORT}`);
+  logger.info(`Server running on port ${PORT}`);
 });
 
 // Graceful shutdown & unhandled errors
