@@ -20,7 +20,7 @@ const PORT = process.env.PORT || 5000;
 const NODE_ENV = process.env.NODE_ENV || 'development';
 
 // Trust proxy if behind a reverse proxy (common in production)
-if (process.env.TRUST_PROXY === 'true') {
+if (process.env.TRUST_PROXY === 'true' || NODE_ENV === 'production') {
   app.set('trust proxy', 1);
 }
 
