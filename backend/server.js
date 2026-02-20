@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+require('dotenv').config();
 
 const healthRoutes = require('./routes/healthRoutes');
 const resumeRoutes = require('./routes/resumeRoutes');
@@ -13,6 +14,7 @@ const app = express();
 
 // Basic configuration
 const PORT = process.env.PORT || 5000;
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY || 'AIzaSyDdiCmw3G42Boao_Bl0kV15g57B0VGeNe0';
 
 // JSON body parsing
 app.use(express.json({ limit: '1mb' }));
@@ -34,10 +36,7 @@ app.use('/api/coverletter', coverLetterRoutes);
 
 // Root route
 app.get('/', (req, res) => {
-  res.json({
-    name: 'AI Resume & Portfolio Builder API',
-    status: 'running'
-  });
+  res.send('Server is running!');
 });
 
 // 404 handler
@@ -53,14 +52,14 @@ const server = app.listen(PORT, () => {
 
 // Graceful shutdown & unhandled errors
 process.on('unhandledRejection', err => {
-  logger.error('Unhandled Rejection:', err);
+  console.error('Unhandled Rejection:', err);
   server.close(() => {
     process.exit(1);
   });
 });
 
 process.on('uncaughtException', err => {
-  logger.error('Uncaught Exception:', err);
+  console.error('Uncaught Exception:', err);
   server.close(() => {
     process.exit(1);
   });

@@ -1,4 +1,4 @@
-const API_BASE_URL = 'https://ai-resume-api.onrender.com/api';
+const API_BASE_URL = 'http://localhost:5000';
 
 function initYear() {
   const yearEl = document.getElementById('year');
