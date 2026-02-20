@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-require('dotenv').config();
+require('dotenv').config({ path: path.resolve(__dirname, '.env') });
 
 const healthRoutes = require('./routes/healthRoutes');
 const resumeRoutes = require('./routes/resumeRoutes');
@@ -14,7 +14,7 @@ const app = express();
 
 // Basic configuration
 const PORT = process.env.PORT || 5000;
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY || 'AIzaSyDdiCmw3G42Boao_Bl0kV15g57B0VGeNe0';
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY || 'AIzaSyD9AxHw3X6QeRM-Pn_272FIHBtj_42iXpY';
 
 // JSON body parsing
 app.use(express.json({ limit: '1mb' }));
